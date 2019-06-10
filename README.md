@@ -9,3 +9,13 @@ Terraform configurations for provisioning:
 - 2 EC2 instances (size?) to be used as clients, one in each region. 
 - 6 ELB, one per AZ, with health checks enabled.
 - Route53 DNS with health checks enabled, with A records that are mapped to ELB the instances.
+
+## Applying terraform files with OKTA
+
+Use `aws-okta exec` command to execute terraform apply using your OKTA sso.
+
+```bash
+aws-okta exec <profile> -- terraform apply
+```
+
+Where `<profile>` is the name of the AWS profile created with `aws-okta`.

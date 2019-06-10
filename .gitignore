@@ -1,0 +1,7 @@
+.terraform
+
+# No backups in repository
+*.backup
+
+# For the purpose of this demo, no state should be checked in
+*.tfstate
