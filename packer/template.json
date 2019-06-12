@@ -23,9 +23,16 @@
   }],
   "provisioners": [
     {
+      "only": ["cassandra"],
       "type": "shell",
-      "script": "./scripts/setup_cassandra.sh",
-      "only": ["cassandra"]
+      "script": "./scripts/cassandra/download_install.sh"
+
+    },
+    {
+      "only": ["cassandra"],
+      "type": "file",
+      "source": "./scripts/cassandra/generate_config.sh",
+      "destination": "/home/ubuntu/"
     }
   ]
 }
