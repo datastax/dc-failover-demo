@@ -20,6 +20,26 @@ data "aws_caller_identity" "current" {
   provider = "aws.region1"
 }
 
+data "aws_ami" "cassandra_r1" {
+  provider = "aws.region1"
+  most_recent = true
+  owners = ["self"]
+  filter {
+    name = "name"
+    values = ["cassandra-image*"]
+  }
+}
+
+data "aws_ami" "cassandra_r2" {
+  provider = "aws.region2"
+  most_recent = true
+  owners = ["self"]
+  filter {
+    name = "name"
+    values = ["cassandra-image*"]
+  }
+}
+
 resource "tls_private_key" "dev" {
   algorithm = "RSA"
   rsa_bits  = 4096

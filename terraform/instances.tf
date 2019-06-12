@@ -7,7 +7,7 @@
 
 resource "aws_instance" "bastion_r1" {
   provider = "aws.region1"
-  ami = var.amis[var.region1]
+  ami = "ami-b374d5a5"
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.r1_az1.id}"
   associate_public_ip_address = true
@@ -28,9 +28,9 @@ resource "aws_instance" "bastion_r1" {
   }
 }
 
-resource "aws_instance" "service_instance_r1_s1" {
+resource "aws_instance" "instance_r1_s1" {
   provider = "aws.region1"
-  ami = var.amis[var.region1]
+  ami = "${data.aws_ami.cassandra_r1.id}"
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.r1_az1.id}"
   key_name = "${aws_key_pair.generated_key.key_name}"

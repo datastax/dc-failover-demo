@@ -1,0 +1,31 @@
+{
+  "variables": {
+    "region1": "us-east-1",
+    "region2": "us-west-2"
+  },
+  "builders": [{
+    "name": "cassandra",
+    "type": "amazon-ebs",
+    "region": "{{user `region1`}}",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "m5d.2xlarge",
+    "ssh_username": "ubuntu",
+    "ami_name": "cassandra-image {{timestamp}}",
+    "ami_regions": ["{{user `region1`}}", "{{user `region2`}}"]
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "./scripts/setup_cassandra.sh",
+      "only": ["cassandra"]
+    }
+  ]
+}
