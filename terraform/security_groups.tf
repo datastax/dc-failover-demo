@@ -24,7 +24,7 @@ resource "aws_security_group" "default_r1" {
 resource "aws_security_group" "default_r2" {
   provider = "aws.region2"
   name        = "sg_demo_default_r2"
-  description = "Used in the terraform demo"
+  description = "Used in the terraform demo region2"
   vpc_id      = "${aws_vpc.r2.id}"
 
   # SSH, HTTP and more from the VPCs

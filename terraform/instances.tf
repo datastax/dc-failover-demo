@@ -1,10 +1,10 @@
 resource "aws_instance" "bastion_r1" {
   provider = "aws.region1"
-  ami = "${data.aws_ami.cassandra_r1.id}"
+  ami = "ami-b374d5a5"
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.r1_az1.id}"
   associate_public_ip_address = true
-  key_name = "${aws_key_pair.r1.key_name}"
+  key_name = "${aws_key_pair.key_r1.key_name}"
   vpc_security_group_ids = ["${aws_security_group.default_r1.id}", "${aws_security_group.bastion_r1.id}"]
 
   provisioner "remote-exec" {
@@ -26,7 +26,7 @@ resource "aws_instance" "instance_r1_s1" {
   ami = "${data.aws_ami.cassandra_r1.id}"
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.r1_az1.id}"
-  key_name = "${aws_key_pair.r1.key_name}"
+  key_name = "${aws_key_pair.key_r1.key_name}"
   vpc_security_group_ids = ["${aws_security_group.default_r1.id}"]
 
 
@@ -50,6 +50,6 @@ resource "aws_instance" "instance_r2_s1" {
   ami = "${data.aws_ami.cassandra_r2.id}"
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.r2_az1.id}"
-  key_name = "${aws_key_pair.r2.key_name}"
+  key_name = "${aws_key_pair.key_r2.key_name}"
   vpc_security_group_ids = ["${aws_security_group.default_r2.id}"]
 }

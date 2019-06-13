@@ -45,13 +45,13 @@ resource "tls_private_key" "dev" {
   rsa_bits  = 4096
 }
 
-resource "aws_key_pair" "r1" {
+resource "aws_key_pair" "key_r1" {
   provider = "aws.region1"
   key_name   = "dev_key_r1"
   public_key = "${tls_private_key.dev.public_key_openssh}"
 }
 
-resource "aws_key_pair" "r2" {
+resource "aws_key_pair" "key_r2" {
   provider = "aws.region2"
   key_name   = "dev_key_r2"
   public_key = "${tls_private_key.dev.public_key_openssh}"
