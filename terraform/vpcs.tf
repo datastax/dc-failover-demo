@@ -43,6 +43,20 @@ resource "aws_vpc_peering_connection_accepter" "r1_to_r2_accepter" {
   tags = { Side = "Accepter" }
 }
 
+resource "aws_route" "route_r1" {
+  provider = "aws.region1"
+  route_table_id            = "${aws_vpc.r1.main_route_table_id}"
+  destination_cidr_block    = "10.1.0.0/16"
+  vpc_peering_connection_id = "${aws_vpc_peering_connection.r1_to_r2_requester.id}"
+}
+
+resource "aws_route" "route_r2" {
+  provider = "aws.region2"
+  route_table_id            = "${aws_vpc.r2.main_route_table_id}"
+  destination_cidr_block    = "10.0.0.0/16"
+  vpc_peering_connection_id = "${aws_vpc_peering_connection.r1_to_r2_requester.id}"
+}
+
 #################### END Inter region peering
 
 resource "aws_subnet" "r1_az1" {
