@@ -16,7 +16,7 @@
       "owners": ["099720109477"],
       "most_recent": true
     },
-    "instance_type": "m5d.2xlarge",
+    "instance_type": "m5.2xlarge",
     "ssh_username": "ubuntu",
     "ami_name": "cassandra-image {{timestamp}}",
     "ami_regions": ["{{user `region1`}}", "{{user `region2`}}"]
@@ -32,6 +32,12 @@
       "only": ["cassandra"],
       "type": "file",
       "source": "./scripts/cassandra/generate_config.sh",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "only": ["cassandra"],
+      "type": "file",
+      "source": "./scripts/cassandra/cassandra.yaml",
       "destination": "/home/ubuntu/"
     }
   ]

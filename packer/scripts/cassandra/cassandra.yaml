@@ -1,0 +1,7 @@
+cluster_name: 'DemoCluster'
+num_tokens: 4
+allocate_tokens_for_local_replication_factor: 3
+endpoint_snitch: GossipingPropertyFileSnitch
+
+
+
