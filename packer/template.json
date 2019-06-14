@@ -29,19 +29,25 @@
     {
       "only": ["cassandra"],
       "type": "file",
+      "source": "./scripts/cassandra/cassandra.yaml",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "only": ["cassandra"],
+      "type": "file",
       "source": "./scripts/cassandra/generate_config.sh",
       "destination": "/home/ubuntu/"
     },
     {
       "only": ["cassandra"],
       "type": "file",
-      "source": "./scripts/cassandra/cassandra.yaml",
+      "source": "./scripts/cassandra/start_cassandra.sh",
       "destination": "/home/ubuntu/"
     },
     {
       "only": ["cassandra"],
       "type": "shell",
-      "inline": "chmod +x generate_config.sh"
+      "inline": "chmod +x *.sh"
     },
     {
       "only": ["cassandra"],

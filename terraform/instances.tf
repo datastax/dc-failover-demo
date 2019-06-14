@@ -6,57 +6,38 @@ resource "aws_instance" "bastion_r1" {
   associate_public_ip_address = true
   key_name = "${aws_key_pair.key_r1.key_name}"
   vpc_security_group_ids = ["${aws_security_group.default_r1.id}", "${aws_security_group.bastion_r1.id}"]
+}
+
+resource "aws_instance" "i_cassandra_r1_i1" {
+  provider = "aws.region1"
+  ami = "${data.aws_ami.cassandra_r1.id}"
+  instance_type = "m5.2xlarge"
+  subnet_id = "${aws_subnet.r1_az1.id}"
+  key_name = "${aws_key_pair.key_r1.key_name}"
+  vpc_security_group_ids = ["${aws_security_group.default_r1.id}"]
+
+  root_block_device {
+    volume_type = "gp2"
+    volume_size = 50
+    delete_on_termination = true
+  }
 
   provisioner "remote-exec" {
     connection {
-      host = self.public_ip
+      bastion_host = aws_instance.bastion_r1.public_ip
+      host = self.private_ip
       type = "ssh"
       user = "ubuntu"
       private_key = tls_private_key.dev.private_key_pem
     }
 
     inline = [
-        "chmod +x generate_config.sh",
-        #"./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
-        "./generate_config.sh ${aws_instance.bastion_r1.private_ip}",
-        "cd ddac-*",
-        "bin/cassandra"
-      ]
-    }
+      #"./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
+      "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip}",
+      "./start_cassandra.sh"
+    ]
+  }
 }
-#
-#resource "aws_instance" "i_cassandra_r1_i1" {
-#  provider = "aws.region1"
-#  ami = "${data.aws_ami.cassandra_r1.id}"
-#  instance_type = "m5.2xlarge"
-#  subnet_id = "${aws_subnet.r1_az1.id}"
-#  key_name = "${aws_key_pair.key_r1.key_name}"
-#  vpc_security_group_ids = ["${aws_security_group.default_r1.id}"]
-#
-#  provisioner "remote-exec" {
-#    connection {
-#      bastion_host = aws_instance.bastion_r1.public_ip
-#      host = self.private_ip
-#      type = "ssh"
-#      user = "ubuntu"
-#      private_key = tls_private_key.dev.private_key_pem
-#    }
-#
-#    root_block_device {
-#      volume_type = "gp2"
-#      volume_size = 50
-#      delete_on_termination = true
-#    }
-#
-#    inline = [
-#      "chmod +x generate_config.sh",
-#      #"./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
-#      "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip}",
-#      "cd ddac-*",
-#      "bin/cassandra"
-#    ]
-#  }
-#}
 
 #resource "aws_instance" "instance_r2_s1" {
 #  provider = "aws.region2"
