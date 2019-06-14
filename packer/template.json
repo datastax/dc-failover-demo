@@ -23,10 +23,8 @@
   }],
   "provisioners": [
     {
-      "only": ["cassandra"],
       "type": "shell",
-      "script": "./scripts/cassandra/download_install.sh"
-
+      "inline": "/usr/bin/cloud-init status --wait"
     },
     {
       "only": ["cassandra"],
@@ -39,6 +37,16 @@
       "type": "file",
       "source": "./scripts/cassandra/cassandra.yaml",
       "destination": "/home/ubuntu/"
+    },
+    {
+      "only": ["cassandra"],
+      "type": "shell",
+      "inline": "chmod +x generate_config.sh"
+    },
+    {
+      "only": ["cassandra"],
+      "type": "shell",
+      "script": "./scripts/cassandra/download_install.sh"
     }
   ]
 }

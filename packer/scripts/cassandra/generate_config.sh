@@ -20,8 +20,9 @@ printf 'dc=%s\nrack=%s\n' $REGION $AZ > cassandra-rackdc.properties
 rm -f ddac-*/conf/cassandra-topology.properties
 
 # Set seeds and listen address
-printf '\nlisten_address: "%s"\n' $PRIVATE_IP >> cassandra.yaml
-printf 'seed_provider:\n    - class_name: org.apache.cassandra.locator.SimpleSeedProvider\n      parameters:\n          - seeds: ' >> cassandra.yaml
+printf '\nlisten_address: "%s"' $PRIVATE_IP >> cassandra.yaml
+printf '\nrpc_address: "%s"' $PRIVATE_IP >> cassandra.yaml
+printf '\nseed_provider:\n    - class_name: org.apache.cassandra.locator.SimpleSeedProvider\n      parameters:\n          - seeds: ' >> cassandra.yaml
 printf '"%s"\n' $1 >> cassandra.yaml
 
 cd
