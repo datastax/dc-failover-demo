@@ -7,7 +7,7 @@ Terraform configurations for provisioning:
     - Region us-west-1: 3 `m5.2xlarge` instances across 3 AZs.
 - 6 EC2 `m5.large` instances to be used for application services, one in each AZ.
 - 2 EC2 instances (size?) to be used as clients, one in each region. 
-- 6 ELB, one per AZ, with health checks enabled.
+- 2 ELB, one per region, with health checks enabled.
 - 1 AWS Global Accelerator as a ELB anycast frontend (Terraform support [in progress][terraform_aws_ga]).
 
 ## Packer images
