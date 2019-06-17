@@ -20,6 +20,23 @@
     "ssh_username": "ubuntu",
     "ami_name": "cassandra-image {{timestamp}}",
     "ami_regions": ["{{user `region1`}}", "{{user `region2`}}"]
+  },{
+    "name": "web",
+    "type": "amazon-ebs",
+    "region": "{{user `region1`}}",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "m5.large",
+    "ssh_username": "ubuntu",
+    "ami_name": "demo-web-image {{timestamp}}",
+    "ami_regions": ["{{user `region1`}}", "{{user `region2`}}"]
   }],
   "provisioners": [
     {
@@ -29,19 +46,19 @@
     {
       "only": ["cassandra"],
       "type": "file",
-      "source": "./scripts/cassandra/cassandra.yaml",
+      "source": "./packer/scripts/cassandra/cassandra.yaml",
       "destination": "/home/ubuntu/"
     },
     {
       "only": ["cassandra"],
       "type": "file",
-      "source": "./scripts/cassandra/generate_config.sh",
+      "source": "./packer/scripts/cassandra/generate_config.sh",
       "destination": "/home/ubuntu/"
     },
     {
       "only": ["cassandra"],
       "type": "file",
-      "source": "./scripts/cassandra/wait_for_cassandra.sh",
+      "source": "./packer/scripts/cassandra/wait_for_cassandra.sh",
       "destination": "/home/ubuntu/"
     },
     {
@@ -52,7 +69,12 @@
     {
       "only": ["cassandra"],
       "type": "shell",
-      "script": "./scripts/cassandra/download_install.sh"
+      "script": "./packer/scripts/cassandra/download_install.sh"
+    },
+    {
+      "only": ["web"],
+      "type": "shell",
+      "script": "./packer/scripts/web/install_web.sh"
     }
   ]
 }

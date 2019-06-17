@@ -40,6 +40,16 @@ data "aws_ami" "cassandra_r2" {
   }
 }
 
+data "aws_ami" "ami_web_r1" {
+  provider = "aws.region1"
+  most_recent = true
+  owners = ["self"]
+  filter {
+    name = "name"
+    values = ["demo-web-image*"]
+  }
+}
+
 resource "tls_private_key" "dev" {
   algorithm = "RSA"
   rsa_bits  = 4096
