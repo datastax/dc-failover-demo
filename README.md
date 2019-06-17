@@ -37,13 +37,13 @@ terraform init ./terraform/
 Build the images:
 
 ```bash
-aws-okta exec eng -- packer build ./packer/template.json
+aws-okta exec <profile> -- packer build ./packer/template.json
 ```
 
 Create the infrastructure and provisioning
 
 ```bash
-aws-okta exec eng -- terraform apply ./terraform/
+aws-okta exec <profile> -- terraform apply ./terraform/
 ```
 
 [ddac]: https://www.datastax.com/products/datastax-distribution-of-apache-cassandra
