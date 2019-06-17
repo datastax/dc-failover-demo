@@ -1,4 +1,4 @@
-resource "aws_security_group" "default_r1" {
+resource "aws_security_group" "sg_default_r1" {
   provider = "aws.region1"
   name        = "sg_demo_default_r1"
   description = "Used in the terraform demo"
@@ -21,7 +21,7 @@ resource "aws_security_group" "default_r1" {
   }
 }
 
-resource "aws_security_group" "default_r2" {
+resource "aws_security_group" "sg_default_r2" {
   provider = "aws.region2"
   name        = "sg_demo_default_r2"
   description = "Used in the terraform demo region2"
@@ -44,7 +44,7 @@ resource "aws_security_group" "default_r2" {
   }
 }
 
-resource "aws_security_group" "bastion_r1" {
+resource "aws_security_group" "sg_bastion_r1" {
   provider = "aws.region1"
   name        = "sg_demo_bastion_r1"
   description = "Used in the terraform demo"
