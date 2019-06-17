@@ -41,7 +41,7 @@
     {
       "only": ["cassandra"],
       "type": "file",
-      "source": "./scripts/cassandra/start_cassandra.sh",
+      "source": "./scripts/cassandra/wait_for_cassandra.sh",
       "destination": "/home/ubuntu/"
     },
     {

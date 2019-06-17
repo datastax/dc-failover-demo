@@ -1,7 +1,5 @@
 #!/bin/bash
 
-ddac-*/bin/cassandra -p pid.txt
-
 echo "Waiting for port 9042..."
 
 export PRIVATE_IP=$(ec2metadata --local-ipv4)
