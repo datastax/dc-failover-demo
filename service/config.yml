@@ -1,0 +1,14 @@
+logging:
+  level: INFO
+  loggers:
+    com.datastax.demo: DEBUG
+
+driverFactory:
+  contactPoints: "${CONTACT_POINTS:-VALUE1}"
+  localDataCenter: "${LOCAL_DATA_CENTER:-VALUE2}"
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors: []

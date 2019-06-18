@@ -8,3 +8,7 @@
 
 # Terraform lock file when running
 *.lock.info
+
+*.iml
+service/target/
+dependency-reduced-pom.xml
