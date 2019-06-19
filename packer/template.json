@@ -1,7 +1,8 @@
 {
   "variables": {
     "region1": "us-east-1",
-    "region2": "us-west-2"
+    "region2": "us-west-2",
+    "github_key": "{{env `GITHUB_KEY`}}"
   },
   "builders": [{
     "name": "cassandra",
@@ -64,17 +65,28 @@
     {
       "only": ["cassandra"],
       "type": "shell",
-      "inline": "chmod +x *.sh"
+      "script": "./packer/scripts/cassandra/download_install.sh"
     },
     {
-      "only": ["cassandra"],
-      "type": "shell",
-      "script": "./packer/scripts/cassandra/download_install.sh"
+      "only": ["web"],
+      "type": "file",
+      "source": "{{user `github_key`}}",
+      "destination": "/tmp/github_key"
     },
     {
       "only": ["web"],
       "type": "shell",
       "script": "./packer/scripts/web/install_web.sh"
+    },
+    {
+      "only": ["web"],
+      "type": "file",
+      "source": "./packer/scripts/web/start_web.sh",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "type": "shell",
+      "inline": "chmod +x *.sh"
     }
   ]
 }
