@@ -24,6 +24,9 @@ public class DriverFactory
     @NotEmpty
     private String localDataCenter;
 
+    @NotEmpty
+    private String remoteDataCenter;
+
     @JsonProperty
     public String getLocalDataCenter() {
         return localDataCenter;
@@ -35,24 +38,33 @@ public class DriverFactory
     }
 
     @JsonProperty
+    public String getRemoteDataCenter() {
+        return remoteDataCenter;
+    }
+
+    @JsonProperty
+    public void setRemoteDataCenter(String remoteDataCenter) {
+        this.remoteDataCenter = remoteDataCenter;
+    }
+
+    @JsonProperty
     public String getContactPoints() {
         return contactPoints;
     }
-
 
     @JsonProperty
     public void setContactPoints(String contactPoints) {
         this.contactPoints = contactPoints;
     }
 
-    public Session build(Environment environment) {
+    public CqlSession build(Environment environment) {
         final CqlSessionBuilder builder = CqlSession.builder();
 
         for (String contactPoint : contactPoints.split("\\s*,\\s*")) {
             builder.addContactPoint(new InetSocketAddress(contactPoint, PORT));
         }
 
-        final Session session = builder.withLocalDatacenter(localDataCenter).build();
+        final CqlSession session = builder.withLocalDatacenter(localDataCenter).build();
         environment.lifecycle().manage(new Managed() {
             @Override
             public void start() {

@@ -8,8 +8,11 @@ import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.datastax.demo.db.DemoDAO;
+import com.datastax.demo.db.SchemaManager;
+import com.datastax.demo.resources.DemoResource1;
 import com.datastax.demo.resources.HealthCheckResource;
-import com.datastax.oss.driver.api.core.session.Session;
+import com.datastax.oss.driver.api.core.CqlSession;
 
 public class DemoServiceApplication extends Application<DemoServiceConfiguration> {
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceApplication.class);
@@ -31,12 +34,12 @@ public class DemoServiceApplication extends Application<DemoServiceConfiguration
     }
 
     @Override
-    public void run(final DemoServiceConfiguration configuration,
-                    final Environment environment) {
+    public void run(final DemoServiceConfiguration config, final Environment environment) {
+        final CqlSession session = config.getDriverFactory().build(environment);
 
-        Session session = configuration.getDriverFactory().build(environment);
-        logger.info("Hello!!!!!! " + configuration.getDriverFactory().getContactPoints());
+        SchemaManager.createSchema(session, config);
 
+        environment.jersey().register(new DemoResource1(new DemoDAO(session)));
         environment.jersey().register(new HealthCheckResource());
     }
 

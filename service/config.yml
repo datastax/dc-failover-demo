@@ -4,8 +4,9 @@ logging:
     com.datastax.demo: DEBUG
 
 driverFactory:
-  contactPoints: "${CONTACT_POINTS:-VALUE1}"
-  localDataCenter: "${LOCAL_DATA_CENTER:-VALUE2}"
+  contactPoints: "${CONTACT_POINTS:-127.0.0.1}"
+  localDataCenter: "${LOCAL_DATA_CENTER:-dc1}"
+  remoteDataCenter: "${LOCAL_DATA_CENTER:-dc2}"
 
 server:
   applicationConnectors:
