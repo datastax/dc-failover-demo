@@ -7,7 +7,7 @@ resource "aws_elb" "elb_r1" {
   internal = false
 
   listener {
-    instance_port     = 80
+    instance_port     = 8080
     instance_protocol = "http"
     lb_port           = 80
     lb_protocol       = "http"
@@ -17,10 +17,8 @@ resource "aws_elb" "elb_r1" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    # TODO: use an specific path
-#    target = "HTTP:8000/health_check"
-    target              = "HTTP:80/"
-    interval            = 10
+    target              = "HTTP:8080/status"
+    interval            = 5
   }
 
   instances = ["${aws_instance.i_web_r1_i1.id}"]

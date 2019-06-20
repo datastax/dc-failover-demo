@@ -5,11 +5,13 @@
 resource "aws_vpc" "r1" {
   provider = "aws.region1"
   cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
 }
 
 resource "aws_vpc" "r2" {
   provider = "aws.region2"
   cidr_block = "10.1.0.0/16"
+  enable_dns_hostnames = true
 }
 
 resource "aws_internet_gateway" "agw_r1" {
