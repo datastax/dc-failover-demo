@@ -37,5 +37,5 @@ resource "aws_subnet" "r2_az3" {
   provider = "aws.region2"
   vpc_id = "${aws_vpc.r2.id}"
   cidr_block = "10.1.2.0/24"
-  availability_zone = "${data.aws_availability_zones.r2.names[1]}"
+  availability_zone = "${data.aws_availability_zones.r2.names[2]}"
 }

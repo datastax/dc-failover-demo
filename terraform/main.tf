@@ -56,6 +56,16 @@ data "aws_ami" "ami_web_r1" {
   }
 }
 
+data "aws_ami" "ami_web_r2" {
+  provider = "aws.region2"
+  most_recent = true
+  owners = ["self"]
+  filter {
+    name = "name"
+    values = ["demo-web-image*"]
+  }
+}
+
 resource "tls_private_key" "dev" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -72,13 +82,3 @@ resource "aws_key_pair" "key_r2" {
   key_name   = "dev_key_r2"
   public_key = "${tls_private_key.dev.public_key_openssh}"
 }
-
-## Backing up
-
-#resource "aws_globalaccelerator_accelerator" "demo_accelerator" {
-#  name = "demo-accelerator"
-#  ip_address_type = "IPV4"
-#  enabled = true
-#  # any of the two providers (the provider will be used but not the region itself)
-#  provider = "aws.region1"
-#}

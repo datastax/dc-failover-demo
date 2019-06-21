@@ -65,7 +65,6 @@ resource "aws_security_group" "sg_elb_r1" {
   description = "Used in the terraform demo"
   vpc_id      = "${aws_vpc.r1.id}"
 
-  # Port 80 open to the internet
   ingress {
     from_port   = 80
     to_port     = 80
@@ -73,7 +72,27 @@ resource "aws_security_group" "sg_elb_r1" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "sg_elb_r2" {
+  provider = "aws.region2"
+  name        = "sg_elb"
+  description = "Used in the terraform demo"
+  vpc_id      = "${aws_vpc.r2.id}"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

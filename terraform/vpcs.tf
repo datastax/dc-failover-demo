@@ -19,11 +19,23 @@ resource "aws_internet_gateway" "agw_r1" {
   vpc_id = "${aws_vpc.r1.id}"
 }
 
-resource "aws_route" "internet_access" {
+resource "aws_route" "internet_access_r1" {
   provider = "aws.region1"
   route_table_id         = "${aws_vpc.r1.main_route_table_id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = "${aws_internet_gateway.agw_r1.id}"
+}
+
+resource "aws_internet_gateway" "agw_r2" {
+  provider = "aws.region2"
+  vpc_id = "${aws_vpc.r2.id}"
+}
+
+resource "aws_route" "internet_access_r2" {
+  provider = "aws.region2"
+  route_table_id         = "${aws_vpc.r2.main_route_table_id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${aws_internet_gateway.agw_r2.id}"
 }
 
 resource "aws_vpc_peering_connection" "r1_to_r2_requester" {
