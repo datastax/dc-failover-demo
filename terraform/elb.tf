@@ -27,14 +27,6 @@ resource "aws_lb_target_group" "lb_tg_r1" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "lb_tga_r1_i1" {
-  provider = "aws.region1"
-  target_group_arn = "${aws_lb_target_group.lb_tg_r1.arn}"
-  target_id = "${aws_instance.i_web_r1_i1.id}"
-  port = 8080
-  #TODO: Add more target group attachments per web instance
-}
-
 resource "aws_lb_listener" "lb_r1_listener" {
   provider = "aws.region1"
   load_balancer_arn = "${aws_lb.lb_r1.arn}"
@@ -45,4 +37,25 @@ resource "aws_lb_listener" "lb_r1_listener" {
     type = "forward"
     target_group_arn = "${aws_lb_target_group.lb_tg_r1.arn}"
   }
+}
+
+resource "aws_lb_target_group_attachment" "lb_tga_r1_i1" {
+  provider = "aws.region1"
+  target_group_arn = "${aws_lb_target_group.lb_tg_r1.arn}"
+  target_id = "${aws_instance.i_web_r1_i1.id}"
+  port = 8080
+}
+
+resource "aws_lb_target_group_attachment" "lb_tga_r1_i2" {
+  provider = "aws.region1"
+  target_group_arn = "${aws_lb_target_group.lb_tg_r1.arn}"
+  target_id = "${aws_instance.i_web_r1_i2.id}"
+  port = 8080
+}
+
+resource "aws_lb_target_group_attachment" "lb_tga_r1_i3" {
+  provider = "aws.region1"
+  target_group_arn = "${aws_lb_target_group.lb_tg_r1.arn}"
+  target_id = "${aws_instance.i_web_r1_i3.id}"
+  port = 8080
 }
