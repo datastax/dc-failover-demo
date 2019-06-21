@@ -40,7 +40,13 @@ Build the images:
 aws-okta exec <profile> -- packer build ./packer/template.json
 ```
 
-Create the infrastructure and provisioning
+Note that while this repository is private, you must set your github key:
+
+```bash
+export GITHUB_KEY="/Users/<user>/.ssh/id_rsa"
+```
+
+Create the infrastructure and provisioning:
 
 ```bash
 aws-okta exec <profile> -- terraform apply ./terraform/
