@@ -12,6 +12,7 @@ import com.datastax.demo.db.DemoDAO;
 import com.datastax.demo.db.SchemaManager;
 import com.datastax.demo.resources.DemoResource1;
 import com.datastax.demo.resources.HealthCheckResource;
+import com.datastax.demo.resources.HomeResource;
 import com.datastax.oss.driver.api.core.CqlSession;
 
 public class DemoServiceApplication extends Application<DemoServiceConfiguration> {
@@ -41,6 +42,7 @@ public class DemoServiceApplication extends Application<DemoServiceConfiguration
 
         environment.jersey().register(new DemoResource1(new DemoDAO(session)));
         environment.jersey().register(new HealthCheckResource());
+        environment.jersey().register(new HomeResource(environment.jersey().getResourceConfig()));
     }
 
 }
