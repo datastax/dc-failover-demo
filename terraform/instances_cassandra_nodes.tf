@@ -26,6 +26,7 @@ resource "aws_instance" "i_cassandra_r1_i2" {
     }
 
     inline = [
+      "echo \"${self.private_ip} ${self.private_dns}\" | sudo tee -a /etc/hosts",
       "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
       "nohup ddac-*/bin/cassandra -p pid.txt &",
       "./wait_for_cassandra.sh"
@@ -60,6 +61,7 @@ resource "aws_instance" "i_cassandra_r1_i3" {
     }
 
     inline = [
+      "echo \"${self.private_ip} ${self.private_dns}\" | sudo tee -a /etc/hosts",
       "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
       "nohup ddac-*/bin/cassandra -p pid.txt &",
       "./wait_for_cassandra.sh"
@@ -94,6 +96,7 @@ resource "aws_instance" "i_cassandra_r2_i2" {
     }
 
     inline = [
+      "echo \"${self.private_ip} ${self.private_dns}\" | sudo tee -a /etc/hosts",
       "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
       "nohup ddac-*/bin/cassandra -p pid.txt &",
       "./wait_for_cassandra.sh"
@@ -128,6 +131,7 @@ resource "aws_instance" "i_cassandra_r2_i3" {
     }
 
     inline = [
+      "echo \"${self.private_ip} ${self.private_dns}\" | sudo tee -a /etc/hosts",
       "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip},${aws_instance.i_cassandra_r2_i1.private_ip}",
       "nohup ddac-*/bin/cassandra -p pid.txt &",
       "./wait_for_cassandra.sh"
