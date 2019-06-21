@@ -1,11 +1,17 @@
 provider "aws" {
   alias = "region1"
   region = var.region1
+  version = "~> 2.16"
 }
 
 provider "aws" {
   alias = "region2"
   region = var.region2
+  version = "~> 2.16"
+}
+
+provider "tls" {
+  version = "~> 2.0"
 }
 
 data "aws_availability_zones" "r1" {
