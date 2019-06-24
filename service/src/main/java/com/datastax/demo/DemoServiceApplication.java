@@ -42,7 +42,7 @@ public class DemoServiceApplication extends Application<DemoServiceConfiguration
 
         environment.jersey().register(new DemoResource1(new DemoDAO(session)));
         environment.jersey().register(new HealthCheckResource());
-        environment.jersey().register(new HomeResource(environment.jersey().getResourceConfig()));
+        environment.jersey().register(new HomeResource(environment.jersey().getResourceConfig(), session));
     }
 
 }
