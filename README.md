@@ -52,6 +52,37 @@ Create the infrastructure and provisioning:
 aws-okta exec <profile> -- terraform apply ./terraform/
 ```
 
+## Testing failover
+
+### DC Failure
+
+Destroy Global Accelerator endpoint group for Region 2, ELB on Region 2 and instances on region 2: 
+
+```bash
+aws-okta exec eng -- terraform destroy \
+    -target aws_globalaccelerator_endpoint_group.demo_acc_eg_r2 \
+    -target aws_lb.lb_r2 \
+    -target aws_instance.i_web_r2_i1 \
+    -target aws_instance.i_web_r2_i2 \
+    -target aws_instance.i_web_r2_i3 \
+    -target aws_instance.i_cassandra_r2_i1 \
+    -target aws_instance.i_cassandra_r2_i2 \
+    -target aws_instance.i_cassandra_r2_i3 \
+    ./terraform/
+```
+
+### AZ Failure
+
+Destroy all instance on Region 2, AZ 3.
+
+```bash
+aws-okta exec eng -- terraform destroy \
+    -target aws_lb_target_group_attachment.lb_tga_r2_i3 \
+    -target aws_instance.i_web_r2_i3 \
+    -target aws_instance.i_cassandra_r2_i3 \
+    ./terraform/
+```
+
 [ddac]: https://www.datastax.com/products/datastax-distribution-of-apache-cassandra
 [terraform_aws_ga]: https://github.com/terraform-providers/terraform-provider-aws/pull/8328
 [aws-okta]: https://github.com/segmentio/aws-okta

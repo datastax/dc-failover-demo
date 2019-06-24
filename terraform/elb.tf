@@ -87,6 +87,18 @@ resource "aws_lb_target_group" "lb_tg_r2" {
   }
 }
 
+resource "aws_lb_listener" "lb_r2_listener" {
+  provider = "aws.region2"
+  load_balancer_arn = "${aws_lb.lb_r2.arn}"
+  port = "80"
+  protocol = "HTTP"
+
+  default_action {
+    type = "forward"
+    target_group_arn = "${aws_lb_target_group.lb_tg_r2.arn}"
+  }
+}
+
 resource "aws_lb_target_group_attachment" "lb_tga_r2_i1" {
   provider = "aws.region2"
   target_group_arn = "${aws_lb_target_group.lb_tg_r2.arn}"

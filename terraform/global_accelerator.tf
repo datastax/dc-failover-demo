@@ -1,14 +1,11 @@
 resource "aws_globalaccelerator_accelerator" "demo_acc" {
-  provider = "aws.region1"
   name = "demo-accelerator"
   ip_address_type = "IPV4"
   enabled = true
 }
 
 resource "aws_globalaccelerator_listener" "demo_acc_listener" {
-  provider = "aws.region1"
   accelerator_arn = "${aws_globalaccelerator_accelerator.demo_acc.id}"
-  client_affinity = "SOURCE_IP"
   protocol = "TCP"
 
   port_range {
@@ -20,9 +17,23 @@ resource "aws_globalaccelerator_listener" "demo_acc_listener" {
 resource "aws_globalaccelerator_endpoint_group" "demo_acc_eg_r1" {
   provider = "aws.region1"
   listener_arn = "${aws_globalaccelerator_listener.demo_acc_listener.id}"
+  health_check_interval_seconds = 10
+  health_check_path = "/status"
 
   endpoint_configuration {
     endpoint_id = "${aws_lb.lb_r1.arn}"
+    weight = 100
+  }
+}
+
+resource "aws_globalaccelerator_endpoint_group" "demo_acc_eg_r2" {
+  provider = "aws.region2"
+  listener_arn = "${aws_globalaccelerator_listener.demo_acc_listener.id}"
+  health_check_interval_seconds = 10
+  health_check_path = "/status"
+
+  endpoint_configuration {
+    endpoint_id = "${aws_lb.lb_r2.arn}"
     weight = 100
   }
 }

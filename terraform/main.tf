@@ -10,6 +10,11 @@ provider "aws" {
   version = "~> 2.16"
 }
 
+provider "aws" {
+  # Add a default one
+  region = var.region1
+}
+
 provider "tls" {
   version = "~> 2.0"
 }
