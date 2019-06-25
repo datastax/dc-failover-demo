@@ -52,7 +52,7 @@ resource "aws_instance" "i_web_r1_i3" {
   instance_type = "m5.large"
   subnet_id = "${aws_subnet.r1_az3.id}"
   key_name = "${aws_key_pair.key_r1.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_default_r1.id}"]
+  vpc_security_group_ids = ["${aws_security_group.sg_r1_az3.id}"]
 
   provisioner "remote-exec" {
     connection {

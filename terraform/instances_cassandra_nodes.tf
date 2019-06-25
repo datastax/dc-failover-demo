@@ -40,7 +40,7 @@ resource "aws_instance" "i_cassandra_r1_i3" {
   instance_type = "m5.2xlarge"
   subnet_id = "${aws_subnet.r1_az3.id}"
   key_name = "${aws_key_pair.key_r1.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_default_r1.id}"]
+  vpc_security_group_ids = ["${aws_security_group.sg_r1_az3.id}"]
 
   # Start after r1_i2
   depends_on = [ aws_instance.i_cassandra_r1_i2 ]

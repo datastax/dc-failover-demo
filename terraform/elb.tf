@@ -1,3 +1,5 @@
+# Region 1 ELB
+
 resource "aws_lb" "lb_r1" {
   provider = "aws.region1"
   name = "lb-demo-r1"
@@ -22,7 +24,7 @@ resource "aws_lb_target_group" "lb_tg_r1" {
     path = "/status"
     healthy_threshold = 2
     unhealthy_threshold = 2
-    timeout = 3
+    timeout = 2
   }
 }
 
@@ -59,6 +61,8 @@ resource "aws_lb_target_group_attachment" "lb_tga_r1_i3" {
   port = 8080
 }
 
+# Region 2 ELB
+
 resource "aws_lb" "lb_r2" {
   provider = "aws.region2"
   name = "lb-demo-r2"
@@ -83,7 +87,7 @@ resource "aws_lb_target_group" "lb_tg_r2" {
     path = "/status"
     healthy_threshold = 2
     unhealthy_threshold = 2
-    timeout = 3
+    timeout = 2
   }
 }
 
