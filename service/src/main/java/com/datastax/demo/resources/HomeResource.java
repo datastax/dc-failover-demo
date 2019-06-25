@@ -41,7 +41,7 @@ public class HomeResource
             .append("\n\nConnected to: ")
             .append(session.getMetadata().getNodes().values().stream()
                 .filter(n -> n.getOpenConnections() > 0)
-                .map(n -> n.getListenAddress().get().getAddress().getHostAddress())
+                .map(n -> n.getEndPoint().toString())
                 .collect(Collectors.joining(", ")))
             .append("\n\n")
             .append(paths);
