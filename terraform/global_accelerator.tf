@@ -19,6 +19,7 @@ resource "aws_globalaccelerator_endpoint_group" "demo_acc_eg_r1" {
   listener_arn = "${aws_globalaccelerator_listener.demo_acc_listener.id}"
   health_check_interval_seconds = 10
   health_check_path = "/status"
+  health_check_port = 80
 
   endpoint_configuration {
     endpoint_id = "${aws_lb.lb_r1.arn}"
@@ -31,6 +32,7 @@ resource "aws_globalaccelerator_endpoint_group" "demo_acc_eg_r2" {
   listener_arn = "${aws_globalaccelerator_listener.demo_acc_listener.id}"
   health_check_interval_seconds = 10
   health_check_path = "/status"
+  health_check_port = 80
 
   endpoint_configuration {
     endpoint_id = "${aws_lb.lb_r2.arn}"
