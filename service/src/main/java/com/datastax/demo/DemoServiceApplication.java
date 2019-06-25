@@ -1,5 +1,13 @@
 package com.datastax.demo;
 
+import com.datastax.demo.db.DemoDAO;
+import com.datastax.demo.db.SchemaManager;
+import com.datastax.demo.db.ShoppingDAO;
+import com.datastax.demo.resources.DemoResource1;
+import com.datastax.demo.resources.HealthCheckResource;
+import com.datastax.demo.resources.HomeResource;
+import com.datastax.demo.resources.ShoppingResource;
+import com.datastax.oss.driver.api.core.CqlSession;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -7,13 +15,6 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.datastax.demo.db.DemoDAO;
-import com.datastax.demo.db.SchemaManager;
-import com.datastax.demo.resources.DemoResource1;
-import com.datastax.demo.resources.HealthCheckResource;
-import com.datastax.demo.resources.HomeResource;
-import com.datastax.oss.driver.api.core.CqlSession;
 
 public class DemoServiceApplication extends Application<DemoServiceConfiguration> {
     private static final Logger logger = LoggerFactory.getLogger(DemoServiceApplication.class);
@@ -41,6 +42,7 @@ public class DemoServiceApplication extends Application<DemoServiceConfiguration
         SchemaManager.createSchema(session, config);
 
         environment.jersey().register(new DemoResource1(new DemoDAO(session)));
+        environment.jersey().register(new ShoppingResource(new ShoppingDAO(session)));
         environment.jersey().register(new HealthCheckResource());
         environment.jersey().register(new HomeResource(environment.jersey().getResourceConfig(), session));
     }
