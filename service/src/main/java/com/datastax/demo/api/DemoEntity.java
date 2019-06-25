@@ -3,7 +3,7 @@ package com.datastax.demo.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DemoEntity {
-    private long id;
+    private int id;
 
     private String content;
 
@@ -11,13 +11,13 @@ public class DemoEntity {
         // Jackson deserialization
     }
 
-    public DemoEntity(long id, String content) {
+    public DemoEntity(int id, String content) {
         this.id = id;
         this.content = content;
     }
 
     @JsonProperty
-    public long getId() {
+    public int getId() {
         return id;
     }
 
