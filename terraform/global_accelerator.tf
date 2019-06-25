@@ -1,5 +1,5 @@
 resource "aws_globalaccelerator_accelerator" "demo_acc" {
-  name = "demo-accelerator"
+  name = "demo-accelerator-${random_id.id1.b64_url}"
   ip_address_type = "IPV4"
   enabled = true
 }

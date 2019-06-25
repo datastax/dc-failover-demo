@@ -2,7 +2,6 @@
 
 resource "aws_lb" "lb_r1" {
   provider = "aws.region1"
-  name = "lb-demo-r1"
   load_balancer_type = "application"
   subnets = ["${aws_subnet.r1_az1.id}", "${aws_subnet.r1_az2.id}", "${aws_subnet.r1_az3.id}"]
   security_groups = ["${aws_security_group.sg_default_r1.id}", "${aws_security_group.sg_elb_r1.id}"]
@@ -12,7 +11,6 @@ resource "aws_lb" "lb_r1" {
 
 resource "aws_lb_target_group" "lb_tg_r1" {
   provider = "aws.region1"
-  name = "lb-tg-demo-r1"
   port = 80
   protocol = "HTTP"
   vpc_id = "${aws_vpc.r1.id}"
@@ -65,7 +63,6 @@ resource "aws_lb_target_group_attachment" "lb_tga_r1_i3" {
 
 resource "aws_lb" "lb_r2" {
   provider = "aws.region2"
-  name = "lb-demo-r2"
   load_balancer_type = "application"
   subnets = ["${aws_subnet.r2_az1.id}", "${aws_subnet.r2_az2.id}", "${aws_subnet.r2_az3.id}"]
   security_groups = ["${aws_security_group.sg_default_r2.id}", "${aws_security_group.sg_elb_r2.id}"]
@@ -75,7 +72,6 @@ resource "aws_lb" "lb_r2" {
 
 resource "aws_lb_target_group" "lb_tg_r2" {
   provider = "aws.region2"
-  name = "lb-tg-demo-r2"
   port = 80
   protocol = "HTTP"
   vpc_id = "${aws_vpc.r2.id}"

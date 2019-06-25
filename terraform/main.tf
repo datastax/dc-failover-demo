@@ -87,3 +87,7 @@ resource "aws_key_pair" "key_r2" {
   key_name   = "dev_key_r2"
   public_key = "${tls_private_key.dev.public_key_openssh}"
 }
+
+resource "random_id" "id1" {
+  byte_length = 8
+}
