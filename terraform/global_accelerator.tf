@@ -1,5 +1,5 @@
 resource "aws_globalaccelerator_accelerator" "demo_acc" {
-  name = "demo-accelerator-${random_id.id1.b64_url}"
+  name = "demo-accelerator-${random_id.id1.hex}"
   ip_address_type = "IPV4"
   enabled = true
 }
@@ -20,6 +20,7 @@ resource "aws_globalaccelerator_endpoint_group" "demo_acc_eg_r1" {
   health_check_interval_seconds = 10
   health_check_path = "/status"
   health_check_port = 80
+  health_check_protocol = "HTTP"
 
   endpoint_configuration {
     endpoint_id = "${aws_lb.lb_r1.arn}"
@@ -33,6 +34,7 @@ resource "aws_globalaccelerator_endpoint_group" "demo_acc_eg_r2" {
   health_check_interval_seconds = 10
   health_check_path = "/status"
   health_check_port = 80
+  health_check_protocol = "HTTP"
 
   endpoint_configuration {
     endpoint_id = "${aws_lb.lb_r2.arn}"
