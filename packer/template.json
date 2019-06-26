@@ -1,8 +1,7 @@
 {
   "variables": {
     "region1": "us-east-1",
-    "region2": "us-west-2",
-    "github_key": "{{env `GITHUB_KEY`}}"
+    "region2": "us-west-2"
   },
   "builders": [{
     "name": "cassandra",
@@ -38,6 +37,23 @@
     "ssh_username": "ubuntu",
     "ami_name": "demo-web-image {{timestamp}}",
     "ami_regions": ["{{user `region1`}}", "{{user `region2`}}"]
+  },{
+    "name": "client",
+    "type": "amazon-ebs",
+    "region": "{{user `region1`}}",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "m5.large",
+    "ssh_username": "ubuntu",
+    "ami_name": "demo-client-image {{timestamp}}",
+    "ami_regions": ["{{user `region1`}}", "{{user `region2`}}"]
   }],
   "provisioners": [
     {
@@ -70,8 +86,8 @@
     {
       "only": ["web"],
       "type": "file",
-      "source": "{{user `github_key`}}",
-      "destination": "/tmp/github_key"
+      "source": "./service",
+      "destination": "/home/ubuntu/"
     },
     {
       "only": ["web"],
@@ -82,6 +98,23 @@
       "only": ["web"],
       "type": "file",
       "source": "./packer/scripts/web/start_web.sh",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "only": ["client"],
+      "type": "shell",
+      "script": "./packer/scripts/client/install_client.sh"
+    },
+    {
+      "only": ["client"],
+      "type": "file",
+      "source": "./packer/scripts/client/start_client.sh",
+      "destination": "/home/ubuntu/"
+    },
+    {
+      "only": ["client"],
+      "type": "file",
+      "source": "./packer/scripts/client/locustfile.py",
       "destination": "/home/ubuntu/"
     },
     {

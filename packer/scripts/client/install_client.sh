@@ -4,8 +4,7 @@
 sudo apt-get update -y -qq
 sudo apt-get install -y openjdk-8-jdk-headless
 sudo apt-get install -y cloud-utils
-sudo apt-get install -y python-dev python-setuptools python-yaml
+sudo apt-get install -y python-dev python-setuptools python-yaml python-pip
 
 # install locust
-pip install 'locustio<1.0'
-
+sudo pip install 'locustio<1.0'
