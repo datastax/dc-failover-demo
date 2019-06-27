@@ -12,3 +12,5 @@
 *.iml
 service/target/
 dependency-reduced-pom.xml
+
+*.pyc

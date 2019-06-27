@@ -65,6 +65,36 @@ resource "aws_security_group" "sg_bastion_r1" {
   }
 }
 
+resource "aws_security_group" "sg_client_r1" {
+  provider = "aws.region1"
+  name        = "sg_demo_client_r1"
+  description = "Used in the terraform demo"
+  vpc_id      = "${aws_vpc.r1.id}"
+
+  # SSH from the internet
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Locust web interface from the internet
+  ingress {
+    from_port   = 8089
+    to_port     = 8089
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "sg_elb_r1" {
   provider = "aws.region1"
   name        = "sg_elb_r1"
