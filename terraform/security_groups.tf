@@ -73,6 +73,14 @@ resource "aws_security_group" "sg_client_r1" {
 
   # SSH from the internet
   ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Locust web interface from the internet
+  ingress {
     from_port   = 8089
     to_port     = 8089
     protocol    = "tcp"

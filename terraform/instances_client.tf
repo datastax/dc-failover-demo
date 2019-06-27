@@ -9,13 +9,12 @@ resource "aws_instance" "client_r1" {
   subnet_id = "${aws_subnet.r1_az1.id}"
   associate_public_ip_address = true
   key_name = "${aws_key_pair.key_r1.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_default_r1.id}", "${aws_security_group.sg_client_r1.id}"]
+  vpc_security_group_ids = ["${aws_security_group.sg_client_r1.id}"]
   depends_on = [aws_globalaccelerator_accelerator.demo_acc]
 
   provisioner "remote-exec" {
     connection {
-      bastion_host = aws_instance.bastion_r1.public_ip
-      host = self.private_ip
+      host = aws_instance.client_r1.public_ip
       type = "ssh"
       user = "ubuntu"
       private_key = tls_private_key.dev.private_key_pem
