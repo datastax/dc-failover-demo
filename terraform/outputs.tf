@@ -13,3 +13,7 @@ output "private_key" {
 output "bastion_r1_ip" {
   value = "${aws_instance.bastion_r1.public_ip}"
 }
+
+output "load_client_url" {
+  value = "http://${aws_instance.client_r1.public_ip}:8089"
+}
