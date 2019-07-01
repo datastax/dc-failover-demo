@@ -81,6 +81,16 @@ data "aws_ami" "ami_client_r1" {
   }
 }
 
+data "aws_ami" "ami_client_r2" {
+  provider = "aws.region2"
+  most_recent = true
+  owners = ["self"]
+  filter {
+    name = "name"
+    values = ["demo-client-image*"]
+  }
+}
+
 resource "tls_private_key" "dev" {
   algorithm = "RSA"
   rsa_bits  = 4096
