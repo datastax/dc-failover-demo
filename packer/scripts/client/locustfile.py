@@ -1,6 +1,5 @@
 import string
 import random
-import time
 import gevent
 
 from locust import HttpLocust, Locust, TaskSet, task, clients
