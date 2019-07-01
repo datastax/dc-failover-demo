@@ -1,8 +1,12 @@
-output "public_ips" {
+output "load_client_url" {
+  value = "http://${aws_instance.client_r1.public_ip}:8089"
+}
+
+output "accelerator_public_ips" {
   value = aws_globalaccelerator_accelerator.demo_acc.ip_sets[0]["ip_addresses"]
 }
 
-output "sample_url" {
+output "accelerator_url1" {
   value = "http://${aws_globalaccelerator_accelerator.demo_acc.ip_sets[0]["ip_addresses"][0]}"
 }
 
@@ -12,8 +16,4 @@ output "private_key" {
 
 output "bastion_r1_ip" {
   value = "${aws_instance.bastion_r1.public_ip}"
-}
-
-output "load_client_url" {
-  value = "http://${aws_instance.client_r1.public_ip}:8089"
 }
