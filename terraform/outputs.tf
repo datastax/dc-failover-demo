@@ -1,5 +1,9 @@
-output "load_client_url" {
+output "load_client_url_region1" {
   value = "http://${aws_instance.client_r1.public_ip}:8089"
+}
+
+output "load_client_url_region2" {
+  value = "http://${aws_instance.client_r2.public_ip}:8089"
 }
 
 output "accelerator_public_ips" {
