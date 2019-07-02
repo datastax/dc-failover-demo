@@ -2,6 +2,7 @@ import string
 import random
 import gevent
 
+from requests.exceptions import ConnectionError, ReadTimeout
 from locust import HttpLocust, TaskSet, task
 
 def random_id():
@@ -35,8 +36,9 @@ class DemoBehavior(TaskSet):
 
 class ShopperBehavior(TaskSet):
     MAX_NUM_RETRIES = 2
-    RETRY_DELAY = 2
-    TIMEOUT = 1
+    RETRY_DELAY = 1
+    RETRY_DELAY_CONNECTION = 2
+    TIMEOUT = 0.6
 
     def on_start(self):
         self.username = random_string()
@@ -54,28 +56,39 @@ class ShopperBehavior(TaskSet):
     def send_request(self, method, path, name, json):
         retry = True
         num_retry = 0
+        num_retry_connection = 0
 
         while retry:
-            retry = False
 
-            with getattr(self.client, method)(path, name=name, json=json, catch_response=True,
-                                              timeout=self.TIMEOUT) as response:
-                if response.ok:
-                    response.success()
-                elif response.status_code == 504:
-                    # 504 Gateway timeouts occur when the Global Accelerator / ELB timeouts obtaining a response
-                    # from endpoints / target group
-                    if num_retry < self.MAX_NUM_RETRIES:
+            try:
+                with getattr(self.client, method)(path, name=name, json=json, catch_response=True,
+                                                  timeout=self.TIMEOUT) as response:
+                    retry = False
+
+                    if response.ok:
                         response.success()
-                        # Retry a few times to simulate a client device obtaining a Gateway timeout as
-                        # part of the normal app flow
-                        num_retry += 1
-                        retry = True
-                        gevent.sleep(self.RETRY_DELAY)
+                    elif response.status_code == 504:
+                        # 504 Gateway timeouts occur when the Global Accelerator / ELB timeouts obtaining a response
+                        # from endpoints / target group
+                        if num_retry < self.MAX_NUM_RETRIES:
+                            response.success()
+                            # Retry a few times to simulate a client device obtaining a Gateway timeout as
+                            # part of the normal app flow
+                            num_retry += 1
+                            retry = True
+                            gevent.sleep(self.RETRY_DELAY)
+                        else:
+                            response.failure("504 Gateway timeout failure after {} retries".format(num_retry))
                     else:
-                        response.failure("504 Gateway timeout failure after {} retries".format(num_retry))
-                else:
-                    response.failure("Failed with status code {}: {}".format(response.status_code, response.text))
+                        response.failure("Failed with status code {}: {}".format(response.status_code, response.text))
+
+            except (ConnectionError, ReadTimeout):
+                # Connections are dropped from the Global Accelerator to the ELB instance when we are removing
+                # the security group
+                if num_retry_connection < self.MAX_NUM_RETRIES:
+                    # Retry part of the normal app flow
+                    num_retry_connection += 1
+                    gevent.sleep(self.RETRY_DELAY_CONNECTION)
 
 class WebUser(HttpLocust):
     task_set = ShopperBehavior
