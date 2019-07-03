@@ -85,10 +85,12 @@ class ShopperBehavior(TaskSet):
             except (ConnectionError, ReadTimeout):
                 # Connections are dropped from the Global Accelerator to the ELB instance when we are removing
                 # the security group
-                if num_retry_connection < self.MAX_NUM_RETRIES:
-                    # Retry part of the normal app flow
-                    num_retry_connection += 1
-                    gevent.sleep(self.RETRY_DELAY_CONNECTION)
+                if num_retry_connection >= self.MAX_NUM_RETRIES:
+                    raise
+
+                # Retry part of the normal app flow
+                num_retry_connection += 1
+                gevent.sleep(self.RETRY_DELAY_CONNECTION)
 
 class WebUser(HttpLocust):
     task_set = ShopperBehavior
