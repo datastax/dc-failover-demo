@@ -6,7 +6,7 @@ from requests.exceptions import ConnectionError, ReadTimeout
 from locust import HttpLocust, TaskSet, task
 
 def random_id():
-    random.randint(1, 2**31)
+    return random.randint(1, 2**31)
 
 def random_string(min_length=4, max_length=16):
     return ''.join(random.choice(string.ascii_lowercase) for x in range(random.randint(min_length, max_length)))
@@ -94,3 +94,5 @@ class ShopperBehavior(TaskSet):
 
 class WebUser(HttpLocust):
     task_set = ShopperBehavior
+    min_wait = 500
+    max_wait = 1500
