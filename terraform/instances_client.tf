@@ -13,7 +13,7 @@ resource "aws_instance" "client_r1" {
 
   provisioner "remote-exec" {
     connection {
-      host = aws_instance.client_r1.public_ip
+      host = self.public_ip
       type = "ssh"
       user = "ubuntu"
       private_key = tls_private_key.dev.private_key_pem
@@ -37,7 +37,7 @@ resource "aws_instance" "client_r2" {
 
   provisioner "remote-exec" {
     connection {
-      host = aws_instance.client_r2.public_ip
+      host = self.public_ip
       type = "ssh"
       user = "ubuntu"
       private_key = tls_private_key.dev.private_key_pem
