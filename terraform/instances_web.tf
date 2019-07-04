@@ -19,7 +19,7 @@ resource "aws_instance" "i_web_r1_i1" {
     }
 
     inline = [
-      "nohup ./start_web.sh ${aws_instance.i_cassandra_r1_i1.private_ip} ${aws_instance.i_cassandra_r1_i1.availability_zone} ${aws_instance.i_cassandra_r2_i1.availability_zone} &",
+      "nohup ./start_web.sh ${aws_instance.i_cassandra_r1_i1.private_ip} ${aws_instance.i_cassandra_r1_i1.availability_zone} ${aws_instance.i_cassandra_r2_i1.availability_zone} true &",
       "sleep 5s"
     ]
   }

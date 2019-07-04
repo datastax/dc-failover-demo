@@ -7,6 +7,7 @@ driverFactory:
   contactPoints: "${CONTACT_POINTS:-127.0.0.1}"
   localDataCenter: "${LOCAL_DATA_CENTER:-dc1}"
   remoteDataCenter: "${REMOTE_DATA_CENTER:-dc2}"
+  createSchema: "${CREATE_SCHEMA:-false}"
 
 server:
   applicationConnectors:
