@@ -93,7 +93,7 @@ terraform destroy \
     ./terraform/
 ```
 
-### Notice
+## Notice
 
 The source code contained in this project is designed for demonstration purposes and it's not intended to be used 
 for production use. The software is provided "as is", without warranty of any kind.  Any use by you of the source 
