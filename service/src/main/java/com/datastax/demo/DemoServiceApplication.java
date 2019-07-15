@@ -55,10 +55,14 @@ public class DemoServiceApplication extends Application<DemoServiceConfiguration
     }
 
     @Override
-    public void run(final DemoServiceConfiguration config, final Environment environment) {
+    public void run(final DemoServiceConfiguration config, final Environment environment) throws InterruptedException {
         final CqlSession session = config.getDriverFactory().build(environment);
 
-        SchemaManager.createSchema(session, config);
+        if (config.getDriverFactory().isCreateSchema()) {
+            SchemaManager.createSchema(session, config);
+        } else {
+            SchemaManager.waitSchema(session);
+        }
 
         environment.jersey().register(new DemoExceptionMapper());
         environment.jersey().register(new DemoResource1(new DemoDAO(session)));

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.CqlSessionBuilder;
-import com.datastax.oss.driver.api.core.session.Session;
 
 public class DriverFactory
 {
@@ -26,6 +25,8 @@ public class DriverFactory
 
     @NotEmpty
     private String remoteDataCenter;
+
+    private boolean createSchema;
 
     @JsonProperty
     public String getLocalDataCenter() {
@@ -55,6 +56,18 @@ public class DriverFactory
     @JsonProperty
     public void setContactPoints(String contactPoints) {
         this.contactPoints = contactPoints;
+    }
+
+    @JsonProperty
+    public boolean isCreateSchema()
+    {
+        return createSchema;
+    }
+
+    @JsonProperty
+    public void setCreateSchema(boolean createSchema)
+    {
+        this.createSchema = createSchema;
     }
 
     public CqlSession build(Environment environment) {
