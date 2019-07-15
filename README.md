@@ -93,6 +93,12 @@ terraform destroy \
     ./terraform/
 ```
 
+### Notice
+
+The source code contained in this project is designed for demonstration purposes and it's not intended to be used 
+for production use. The software is provided "as is", without warranty of any kind.  Any use by you of the source 
+code is at your own risk.
+
 [ddac]: https://www.datastax.com/products/datastax-distribution-of-apache-cassandra
 [aws-vault]: https://github.com/99designs/aws-vault
 [aws-okta]: https://github.com/segmentio/aws-okta
