@@ -9,6 +9,10 @@ resource "aws_instance" "i_cassandra_r1_i2" {
   subnet_id = "${aws_subnet.r1_az2.id}"
   key_name = "${aws_key_pair.key_r1.key_name}"
   vpc_security_group_ids = ["${aws_security_group.sg_default_r1.id}"]
+  tags = {
+    Name = "Demo - Cassandra Node",
+    Purpose = "Demo failover"
+  }
 
   root_block_device {
     volume_type = "gp2"
@@ -40,7 +44,11 @@ resource "aws_instance" "i_cassandra_r1_i3" {
   instance_type = "m5.2xlarge"
   subnet_id = "${aws_subnet.r1_az3.id}"
   key_name = "${aws_key_pair.key_r1.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_r1_az3.id}"]
+  vpc_security_group_ids = ["${aws_security_group.sg_default_r1.id}"]
+  tags = {
+    Name = "Demo - Cassandra Node",
+    Purpose = "Demo failover"
+  }
 
   # Start after r1_i2
   depends_on = [ aws_instance.i_cassandra_r1_i2 ]
@@ -76,6 +84,10 @@ resource "aws_instance" "i_cassandra_r2_i2" {
   subnet_id = "${aws_subnet.r2_az2.id}"
   key_name = "${aws_key_pair.key_r2.key_name}"
   vpc_security_group_ids = ["${aws_security_group.sg_default_r2.id}"]
+  tags = {
+    Name = "Demo - Cassandra Node",
+    Purpose = "Demo failover"
+  }
 
   # Start after r1_i3
   depends_on = [ aws_instance.i_cassandra_r1_i3 ]
@@ -110,7 +122,11 @@ resource "aws_instance" "i_cassandra_r2_i3" {
   instance_type = "m5.2xlarge"
   subnet_id = "${aws_subnet.r2_az3.id}"
   key_name = "${aws_key_pair.key_r2.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_default_r2.id}"]
+  vpc_security_group_ids = ["${aws_security_group.sg_r2_az3.id}"]
+  tags = {
+    Name = "Demo - Cassandra Node",
+    Purpose = "Demo failover"
+  }
 
   # Start after r2_i2
   depends_on = [ aws_instance.i_cassandra_r2_i2 ]

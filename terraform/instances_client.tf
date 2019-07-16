@@ -10,6 +10,10 @@ resource "aws_instance" "client_r1" {
   associate_public_ip_address = true
   key_name = "${aws_key_pair.key_r1.key_name}"
   vpc_security_group_ids = ["${aws_security_group.sg_client_r1.id}"]
+  tags = {
+    Name = "Demo - Client",
+    Purpose = "Demo failover"
+  }
 
   provisioner "remote-exec" {
     connection {
@@ -34,6 +38,10 @@ resource "aws_instance" "client_r2" {
   associate_public_ip_address = true
   key_name = "${aws_key_pair.key_r2.key_name}"
   vpc_security_group_ids = ["${aws_security_group.sg_client_r2.id}"]
+  tags = {
+    Name = "Demo - Client",
+    Purpose = "Demo failover"
+  }
 
   provisioner "remote-exec" {
     connection {

@@ -11,4 +11,8 @@ resource "aws_instance" "bastion_r1" {
   associate_public_ip_address = true
   key_name = "${aws_key_pair.key_r1.key_name}"
   vpc_security_group_ids = ["${aws_security_group.sg_default_r1.id}", "${aws_security_group.sg_bastion_r1.id}"]
+  tags = {
+    Name = "Demo - Bastion",
+    Purpose = "Demo failover"
+  }
 }

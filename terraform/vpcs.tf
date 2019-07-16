@@ -6,17 +6,29 @@ resource "aws_vpc" "r1" {
   provider = "aws.region1"
   cidr_block = "10.0.0.0/16"
   enable_dns_hostnames = true
+  tags = {
+    Name = "Demo - VPC R1",
+    Purpose = "Demo failover"
+  }
 }
 
 resource "aws_vpc" "r2" {
   provider = "aws.region2"
   cidr_block = "10.1.0.0/16"
   enable_dns_hostnames = true
+  tags = {
+    Name = "Demo - VPC R2",
+    Purpose = "Demo failover"
+  }
 }
 
 resource "aws_internet_gateway" "agw_r1" {
   provider = "aws.region1"
   vpc_id = "${aws_vpc.r1.id}"
+  tags = {
+    Name = "Demo - IG R1",
+    Purpose = "Demo failover"
+  }
 }
 
 resource "aws_route" "internet_access_r1" {
@@ -29,6 +41,7 @@ resource "aws_route" "internet_access_r1" {
 resource "aws_internet_gateway" "agw_r2" {
   provider = "aws.region2"
   vpc_id = "${aws_vpc.r2.id}"
+  tags = { Name = "demo" }
 }
 
 resource "aws_route" "internet_access_r2" {

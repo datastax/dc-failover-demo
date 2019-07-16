@@ -79,7 +79,9 @@ aws-okta exec <profile_name> -- terraform apply ./terraform/
 Remove the security group rule that allows internal TCP connections on Availability Zone 3 at Region 1.  
 
 ```bash
-terraform destroy -target aws_security_group_rule.sg_rule_sg_r1_az3_allow_all_internal ./terraform/
+terraform destroy \
+    -target aws_instance.i_cassandra_r2_i3 \
+    -target aws_security_group_rule.sg_rule_sg_r2_az3_allow_all_internal ./terraform/
 ```
 
 ### Simulate DC outage
@@ -90,6 +92,7 @@ Remove security group rules for the whole Region 2.
 terraform destroy \
     -target aws_security_group_rule.sg_rule_elb_r2_allow_http \
     -target aws_security_group_rule.sg_rule_default_r2_allow_all_internal \
+    -target aws_vpc_peering_connection.r1_to_r2_requester \
     ./terraform/
 ```
 
