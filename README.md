@@ -10,7 +10,7 @@ at Availability Zone and Region level using DataStax and Apache Cassandra™.
 - [Requirements](#requirements)
 - [Provisioning](#provisioning)
 - [Load testing](#load-testing)
-- [Simulate outages](#simulating-outages)
+- [Simulate outages](#simulate-outages)
 
 ## Description
 
