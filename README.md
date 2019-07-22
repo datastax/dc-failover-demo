@@ -6,7 +6,8 @@ at Availability Zone and Region level using DataStax and Apache Cassandra™.
 ## Table of contents
 
 - [Description](#description)
-- [Deployment diagram](#deployment-diagram)
+- [Architecture diagram](#architecture-diagram)
+- [Schema and Queries](#schema-and-queries)
 - [Requirements](#requirements)
 - [Provisioning](#provisioning)
 - [Load testing](#load-testing)
@@ -33,11 +34,34 @@ Note that regions used in this demo can be configured if needed.
 Equivalent solutions can be deployed in other public cloud providers and on premise, please refer to the whitepaper 
 for more information.
 
-## Deployment diagram
+## Architecture diagram
 
-![Deployment diagram](https://i.imgur.com/N2OKUZ2.png)
+![Architecture diagram](https://i.imgur.com/N2OKUZ2.png)
 
 _Note that each web instance connects to all the Apache Cassandra nodes within the region, regardless of the AZ._
+
+## Schema and Queries
+### Schema
+```
+CREATE KEYSPACE IF NOT EXISTS shopping WITH REPLICATION = {'class':'NetworkTopologyStrategy','us-east-1': 3,'us-west-2': 3};
+CREATE TABLE IF NOT EXISTS shopping.carts (
+	username text,
+	item_id int,
+	date_added timestamp,
+	item_name text,
+	PRIMARY KEY (username, item_id, date_added))
+```
+### Queries
+Reads: Consistency Level = LOCAL_QUORUM
+```
+SELECT * FROM shopping.carts WHERE username = ?
+```
+Writes: Consistency Level = LOCAL_QUORUM
+```
+INSERT INTO shopping.carts (username, item_id, date_added, item_name) VALUES (?, ?, toTimestamp(now()), ?)
+```
+
+This demo uses OSS Java Driver 4.x
 
 ## Requirements
 
