@@ -177,7 +177,12 @@ Note that Global Accelerator will take ten seconds to identify a target as unhea
 ## Notice
 
 The source code contained in this project is designed for demonstration purposes and it's not intended for production
-use. The software is provided "as is", without warranty of any kind.  Any use by you of the source 
+use. A bastion instance is created along with a private key to access using ssh, in case you want to
+verify the state of the instances manually. Note that this private key is included in terraform outputs
+and can be a security risk in your deployment, outside this demo use keys generated beforehand and store them
+securily.
+
+The software is provided "as is", without warranty of any kind.  Any use by you of the source 
 code is at your own risk.
 
 [ddac]: https://www.datastax.com/products/datastax-distribution-of-apache-cassandra
