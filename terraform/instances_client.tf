@@ -2,20 +2,20 @@
 ### Load clients in Regions 1 and 2
 ##################################################
 
-resource "aws_instance" "client_r1" {
-  provider = "aws.region1"
-  ami = "${data.aws_ami.ami_client_r1.id}"
+resource aws_instance client_r1 {
+  provider = aws.region1
+  ami = data.aws_ami.ami_client_r1.id
   instance_type = "m5.large"
-  subnet_id = "${aws_subnet.r1_az1.id}"
+  subnet_id = aws_subnet.r1_az1.id
   associate_public_ip_address = true
-  key_name = "${aws_key_pair.key_r1.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_client_r1.id}"]
+  key_name = aws_key_pair.key_r1.key_name
+  vpc_security_group_ids = [aws_security_group.sg_client_r1.id]
   tags = {
     Name = "Demo - Client",
     Purpose = "Demo failover"
   }
 
-  provisioner "remote-exec" {
+  provisioner remote-exec {
     connection {
       host = self.public_ip
       type = "ssh"
@@ -30,20 +30,20 @@ resource "aws_instance" "client_r1" {
   }
 }
 
-resource "aws_instance" "client_r2" {
-  provider = "aws.region2"
-  ami = "${data.aws_ami.ami_client_r2.id}"
+resource aws_instance client_r2 {
+  provider = aws.region2
+  ami = data.aws_ami.ami_client_r2.id
   instance_type = "m5.large"
-  subnet_id = "${aws_subnet.r2_az1.id}"
+  subnet_id = aws_subnet.r2_az1.id
   associate_public_ip_address = true
-  key_name = "${aws_key_pair.key_r2.key_name}"
-  vpc_security_group_ids = ["${aws_security_group.sg_client_r2.id}"]
+  key_name = aws_key_pair.key_r2.key_name
+  vpc_security_group_ids = [aws_security_group.sg_client_r2.id]
   tags = {
     Name = "Demo - Client",
     Purpose = "Demo failover"
   }
 
-  provisioner "remote-exec" {
+  provisioner remote-exec {
     connection {
       host = self.public_ip
       type = "ssh"

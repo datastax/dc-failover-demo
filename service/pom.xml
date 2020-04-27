@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <mainClass>com.datastax.demo.DemoServiceApplication</mainClass>
         <dropwizard.version>1.3.12</dropwizard.version>
-        <driver.version>4.0.1</driver.version>
+        <driver.version>4.5.1</driver.version>
     </properties>
 
     <dependencyManagement>

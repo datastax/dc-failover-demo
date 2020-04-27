@@ -1,7 +1,7 @@
-# Fault Tolerant Applications with DataStax and Apache Cassandra™ Demo
+# Fault Tolerant Applications with Apache Cassandra™ Demo
 
-Demo project to provision and deploy a multitier application architecture that is resilient to infrastructure outages
-at Availability Zone and Region level using DataStax and Apache Cassandra™.
+Demo project to provision and deploy a multi-tier application architecture that is resilient to infrastructure outages
+at Availability Zone and Region level using Cassandra.
 
 ## Table of contents
 
@@ -21,7 +21,7 @@ provider and see how it behaves during those outages, while handling incoming lo
 
 The following services are created as part of this demo:
 
-- 6 EC2 instances for [DataStax Distribution of Apache Cassandra][ddac] nodes segregated in two data-centers:
+- 6 EC2 instances for Cassandra nodes segregated in two data-centers:
     - Region us-east-1: 3 EC2 `m5.2xlarge` instances across 3 Availability Zones (AZ). 
     - Region us-west-2: 3 EC2 `m5.2xlarge` instances across 3 AZs.
 - 6 EC2 `m5.large` instances to be used for application services, one in each AZ.
@@ -38,7 +38,7 @@ for more information.
 
 ![Architecture diagram](https://i.imgur.com/N2OKUZ2.png)
 
-_Note that each web instance connects to all the Apache Cassandra nodes within the region, regardless of the AZ._
+_Note that each web instance connects to all the Cassandra nodes within the region, regardless of the AZ._
 
 ## Schema and Queries
 ### Schema
@@ -79,9 +79,11 @@ on AWS is around $10 per hour.
 
 ### Packer images
 
+Expect building the images to take several minutes.
 To build the images on the different regions use:
 
 ```bash
+cd dc-failover-demo
 packer build ./packer/template.json
 ```
 
@@ -90,7 +92,8 @@ packer build ./packer/template.json
 To create the instances and services use:
 
 ```bash
-terraform apply ./terraform/
+cd dc-failover-demo/terraform
+terraform apply
 ```
 
 ### Verify
@@ -151,7 +154,7 @@ terraform destroy \
 
 As a result, for new incoming requests the load balancer will route traffic to service instances in the
 healthy zones. Application service instances using Apache Cassandra nodes from AZs that were not impacted will not 
-experience errors derived from the loss of connectivity to the failed nodes and the DataStax Drivers will attempt to
+experience errors derived from the loss of connectivity to the failed nodes and the drivers will attempt to
 reconnect in the background while using the set of live nodes as coordinators for the queries while the failed nodes
 are offline.
 
@@ -174,6 +177,13 @@ region. Application services that are healthy can continue querying the database
 
 Note that Global Accelerator will take ten seconds to identify a target as unhealthy.
 
+### Cleanup
+**Confirm only the demo resources will be destroyed before executing**
+
+Cleanup all terraform managed resources with:
+```bash
+terraform destroy
+```
 ## Notice
 
 The source code contained in this project is designed for demonstration purposes and it's not intended for production
@@ -185,7 +195,6 @@ securily.
 The software is provided "as is", without warranty of any kind.  Any use by you of the source 
 code is at your own risk.
 
-[ddac]: https://www.datastax.com/products/datastax-distribution-of-apache-cassandra
 [aws-vault]: https://github.com/99designs/aws-vault
 [aws-okta]: https://github.com/segmentio/aws-okta
 [okta]: https://www.okta.com/
