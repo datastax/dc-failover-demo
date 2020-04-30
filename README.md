@@ -77,23 +77,29 @@ and client load testing tool is deployed using [Packer][packer] images.
 Note that images, instances and services created on AWS have an associated cost. Estimated cost of running this demo 
 on AWS is around $10 per hour.
 
+### Clone the repository
+
+```bash
+git clone git@github.com:datastax/dc-failover-demo.git
+cd dc-failover-demo
+```
+
 ### Packer images
 
-Expect building the images to take several minutes.
 To build the images on the different regions use:
 
 ```bash
-cd dc-failover-demo
 packer build ./packer/template.json
 ```
+
+Expect building the images to take several minutes.
 
 ### Terraform
 
 To create the instances and services use:
 
 ```bash
-cd dc-failover-demo/terraform
-terraform apply
+terraform apply ./terraform/
 ```
 
 ### Verify
@@ -178,12 +184,13 @@ region. Application services that are healthy can continue querying the database
 Note that Global Accelerator will take ten seconds to identify a target as unhealthy.
 
 ### Cleanup
-**Confirm only the demo resources will be destroyed before executing**
 
-Cleanup all terraform managed resources with:
+You can cleanup all terraform managed resources with:
+
 ```bash
-terraform destroy
+terraform destroy ./terraform/
 ```
+
 ## Notice
 
 The source code contained in this project is designed for demonstration purposes and it's not intended for production
