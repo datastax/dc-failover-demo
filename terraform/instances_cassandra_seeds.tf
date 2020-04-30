@@ -32,7 +32,7 @@ resource aws_instance i_cassandra_r1_i1 {
     inline = [
       "echo \"${self.private_ip} ${self.private_dns}\" | sudo tee -a /etc/hosts",
       "./generate_config.sh ${aws_instance.i_cassandra_r1_i1.private_ip}",
-      "nohup ddac-*/bin/cassandra -p pid.txt &",
+      "nohup cassandra/bin/cassandra -p pid.txt &",
       "./wait_for_cassandra.sh"
     ]
   }

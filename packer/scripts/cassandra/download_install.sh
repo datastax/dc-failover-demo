@@ -7,5 +7,5 @@ sudo apt-get install -y cloud-utils
 sudo apt-get install -y python-dev python-setuptools python-yaml
 
 # download and uncompress Cassandra
-mkdir cassandra; wget -c http://apache.spinellicreations.com/cassandra/4.0-alpha4/apache-cassandra-4.0-alpha4-bin.tar.gz -O - | tar -xz -C cassandra --strip-components=1
+mkdir cassandra; wget -c http://archive.apache.org/dist/cassandra/4.0-alpha4/apache-cassandra-4.0-alpha4-bin.tar.gz -O - | tar -xz -C cassandra --strip-components=1
 
