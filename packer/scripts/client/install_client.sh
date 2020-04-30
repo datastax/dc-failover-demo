@@ -7,4 +7,4 @@ sudo apt-get install -y cloud-utils
 sudo apt-get install -y python-dev python-setuptools python-yaml python-pip
 
 # install locust
-sudo pip install 'locustio<1.0'
+sudo pip install 'locustio==0.13.5'
